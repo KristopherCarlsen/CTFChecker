@@ -2,7 +2,7 @@ use std::fs;
 use std::collections::HashMap;
 
 const DEFAULT_FLAG: &str = "flag{none}";
-const DEFAULT_FAIL_MSG: &str = "No flag for you.";
+const DEFAULT_FAIL_MSG: &str = "none";
 const DEFAULT_CMD: &str = "exit 1";
 const DEFAULT_PORT: u16 = 8080;
 
