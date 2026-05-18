@@ -1,0 +1,12 @@
+[Unit]
+Description=CTF Checker
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/srv/ctfchecker/ctfchecker
+WorkingDirectory=/srv/ctfchecker
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
