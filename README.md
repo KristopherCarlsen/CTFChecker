@@ -1,29 +1,32 @@
-#About
+# CTFChecker
+Service used to run automated scripts for checking a CTF challenge's state.
+
+# About
 This service was made for a penetration testing envirmonment I made. I needed a system for checking the state of and security of a network topolegy.
 
-#Building and Installing
+# Building and Installing
 It uses the standard cargo build system, so it can be built using:
-'cargo build --release'
+`cargo build --release`
 or for a debug build:
-'cargo build'
+`cargo build`
 to install it to the system, run the installer script as root.
-'sudo ./install.sh'
+`sudo ./install.sh`
 
-#Usage
+# Usage
 It runs as a systemd service, so it can be started with:
-'sudo systemctl start ctfchecker'
+`sudo systemctl start ctfchecker`
 stoped with:
-'sudo systemctl stop ctfchecker'
+`sudo systemctl stop ctfchecker`
 restarted:
-'sudo systemctl restart ctfchecker'
+`sudo systemctl restart ctfchecker`
 
-#Configuration
+# Configuration
 The configuration file is located at /srv/ctfchecker/ctfchecker.conf. It uses a simple key: value structure.
 
-flag - this is the flag that will be returned on a successful check.
-fail_msg - this is the message that is returned on a failed check.
-port - the port that the server will listen on.
-cmd - the path to the script or command to run as a check.
+1. flag - this is the flag that will be returned on a successful check.
+2. fail_msg - this is the message that is returned on a failed check.
+3. port - the port that the server will listen on.
+4. cmd - the path to the script or command to run as a check.
 
-#CMD
+# CMD
 Whenever the server's port is knocked on, it will run whatever command is set in the configuration file. The checker uses the return status of the command to determine what it should do. If the command returns success, ie. 0, the flag will be sent back to the user. However, if it returns a failure, ie. anything other than 0, it will send the fail message. The easiest way to control the output is to use the exit command.
