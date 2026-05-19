@@ -1,21 +1,24 @@
 use std::net::{TcpListener, TcpStream};
 use std::io::Write;
-use std::process::{Command, ExitStatus};
-use std::os::unix::process::ExitStatusExt;
+use std::process::{Command,Stdio};
 
 pub mod config;
 
 use crate::config::Config;
 
-fn run_command(cmd: &str) -> ExitStatus{
-    let status = match Command::new("/bin/sh").arg("-c").arg(cmd).status(){
-        Ok(r) => r,
+fn run_command(cmd: &str) -> bool{
+    match Command::new("/bin/sh")
+    .arg("-c")
+    .arg(cmd)
+    .stdout(Stdio::null())
+    .stderr(Stdio::null())
+    .status(){
+        Ok(r) => r.success(),
         Err(_) => { 
             println!("ERROR: Failed to run shell command \"{}\".", cmd); 
-            ExitStatus::from_raw(1)
+            false
         },
-    };
-    status
+    }
 }
 
 fn write_str(stream: &mut TcpStream, str: &str){
@@ -29,7 +32,7 @@ fn handle_client(stream: &mut TcpStream, config: &Config){
     let cmd_status = run_command(&config.cmd);
 
     // The flag is only given to the user if the shell script exits with success.
-    if cmd_status.success(){
+    if cmd_status{
         write_str(stream, &config.flag);
     }
     else{
